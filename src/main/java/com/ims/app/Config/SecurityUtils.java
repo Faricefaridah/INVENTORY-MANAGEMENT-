@@ -1,6 +1,6 @@
 package com.ims.app.Config;
 
-//import com.EquiFarm.EquiFarm.user.User;
+
 import com.ims.app.User.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

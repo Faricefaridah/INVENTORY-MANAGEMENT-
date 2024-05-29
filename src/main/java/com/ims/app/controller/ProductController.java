@@ -26,23 +26,40 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @PostMapping("/newProduct")
-    public ResponseEntity<String> newProduct(@RequestBody Product product) {
-        // Creating dynamic product ID
-        String productId = "PD" + (1000 + new Random().nextInt(9000));
-        product.setId(Long.valueOf(productId));
-        productService.addProduct(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Product added successfully with ID: " + productId);
-    }
+//    @PostMapping("/newProduct")
+//    public ResponseEntity<String> newProduct(@RequestBody Product product) {
+//        // Creating dynamic product ID
+//        String productId = "PD" + (1000 + new Random().nextInt(9000));
+//        product.setId(Long.valueOf(productId));
+//        productService.addProduct(product);
+//        return ResponseEntity.status(HttpStatus.CREATED).body("Product added successfully with ID: " + productId);
+//    }
+@PostMapping("/newProduct")
+public ResponseEntity<String> newProduct(@RequestBody Product product) {
+    // Creating dynamic product ID
+    Long productId = 1000L + new Random().nextInt(9000);
+    product.setId(productId);
+    productService.addProduct(product);
+    return ResponseEntity.status(HttpStatus.CREATED).body("Product added successfully with ID: " + productId);
+}
+//@PostMapping("/newproduct")
+//public ResponseEntity<String> newProduct(@RequestBody Product product) {
+//    // Creating dynamic product ID
+//    Long productId = 1000L + new Random().nextInt(9000);
+//    product.setId(productId);
+//    productService.addProduct(product);
+//    return ResponseEntity.status(HttpStatus.CREATED).body("Product added successfully with ID: " + productId);
+//}
+
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable String id) {
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Optional<Product> product = productService.getProductById(id);
         return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable String id) {
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         boolean deleteSuccess = productService.deleteProductById(id);
         if (deleteSuccess) {
             return ResponseEntity.ok("Product deleted successfully");
@@ -50,15 +67,35 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PostMapping("/request")
-    public ResponseEntity<String> createProductRequest(@RequestBody ProductRequest request) {
-        // Creating dynamic request ID
-        String requestId = "PR" + (1000 + new Random().nextInt(9000));
-        request.setRequestId(requestId);
-        request.setRequestDate(new Date());
-        productService.addProductRequest(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Product request created successfully with ID: " + requestId);
-    }
+//    @PostMapping("/request")
+//    public ResponseEntity<String> createProductRequest(@RequestBody ProductRequest request) {
+//        // Creating dynamic request ID
+//        String requestId = "PR" + (1000 + new Random().nextInt(9000));
+//        request.setRequestId(requestId);
+//        request.setRequestDate(new Date());
+//        productService.addProductRequest(request);
+//        return ResponseEntity.status(HttpStatus.CREATED).body("Product request created successfully with ID: " + requestId);
+//    }
+
+//    @PostMapping("/request")
+//    public ResponseEntity<String> createProductRequest(@RequestBody ProductRequest request) {
+//        // Creating dynamic request ID
+//        Long requestId = 1000L + new Random().nextInt(9000);
+//        request.setRequestId(requestId);
+//        request.setRequestDate(new Date());
+//        productService.addProductRequest(request);
+//        return ResponseEntity.status(HttpStatus.CREATED).body("Product request created successfully with ID: " + requestId);
+//    }
+@PostMapping("/request")
+public ResponseEntity<String> request(@RequestBody Product product) {
+    // Creating dynamic product ID
+    Long productId = 1000L + new Random().nextInt(9000);
+    product.setId(productId);
+    productService.addProduct(product);
+    return ResponseEntity.status(HttpStatus.CREATED).body("Product requested successfully with ID: " + productId);
+}
+
+
     @PostMapping("/dispatch")
     public ResponseEntity<String> dispatchProduct(@RequestBody ProductDispatch dispatch) {
         // Creating dynamic dispatch ID

@@ -3,21 +3,21 @@ package com.ims.app.service;
 import java.util.Date;
 
 public class ProductRequest {
-    private String requestId;
+    private Long requestId;
     private Date requestDate;
 
     // Constructor with both fields
-    public ProductRequest(String requestId, Date requestDate) {
+    public ProductRequest(Long requestId, Date requestDate) {
         this.requestId = requestId;
         this.requestDate = requestDate;
     }
 
     // Getter and Setter for requestId
-    public String getRequestId() {
+    public Long getRequestId() {
         return requestId;
     }
 
-    public void setRequestId(String requestId) {
+    public void setRequestId(Long requestId) {
         this.requestId = requestId;
     }
 

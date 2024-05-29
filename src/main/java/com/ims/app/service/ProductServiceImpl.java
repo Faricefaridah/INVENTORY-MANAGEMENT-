@@ -76,15 +76,15 @@ public class ProductServiceImpl implements ProductService {
         productRepo.save(product);
     }
 
-    @Override
-    public Optional<Product> getProductById(String id) {
-        return Optional.empty();
-    }
+//    @Override
+//    public Optional<Product> getProductById(Long id) {
+//        return Optional.empty();
+//    }
 
-    @Override
-    public boolean deleteProductById(String id) {
-        return false;
-    }
+//    @Override
+//    public boolean deleteProductById(Long id) {
+//        return false;
+//    }
 
     @Override
     public Optional<Product> getProductById(Long id) {

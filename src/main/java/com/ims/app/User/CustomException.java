@@ -36,4 +36,9 @@ public class CustomException {
             super(message);
         }
     }
+    public static class EmailNotificationException extends Exception {
+        public EmailNotificationException(String message) {
+            super(message);
+        }
+    }
 }

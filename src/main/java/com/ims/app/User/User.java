@@ -1,5 +1,6 @@
 package com.ims.app.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ims.app.enums.UserRole;
 import com.ims.app.enums.Role;
 import jakarta.persistence.*;
@@ -45,6 +46,7 @@ public class User implements UserDetails {
     private String forgotPasswordToken;
     private int loginAttempts;
     private boolean blocked;
+
     @Enumerated
     private UserRole userRole;
 
@@ -88,14 +90,13 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        userRole.getAuthorities();
-//        return List.of();
-        return List.of();
+
+        return userRole.getAuthorities();
     }
 
     @Override
     public String getPassword() {
-        return "";
+        return password;
     }
 
     public boolean isBlocked() {
