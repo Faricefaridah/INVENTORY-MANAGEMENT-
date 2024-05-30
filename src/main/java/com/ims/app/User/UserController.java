@@ -1,6 +1,7 @@
 package com.ims.app.User;
 
 import com.ims.app.Config.ApiResponse;
+import com.ims.app.Config.JwtService;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,11 @@ import java.util.Map;
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
-
+    private final JwtService jwtService;
     // Constructor injection of UserService
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtService jwtService) {
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
     // Endpoint for user registration
@@ -62,8 +64,6 @@ public class UserController {
     }
 
 
-
-
 //    // Endpoint for user login
 //    @PostMapping("/login")
 //    public ResponseEntity<?> loginUser(@RequestParam  ("username") String username, @RequestParam ("password")String password) {
@@ -79,23 +79,44 @@ public class UserController {
 //        }
 //    }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-        try {
-            User user = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
-            //Map<String, Object> response = new HashMap<>();
-            //response.put("message", "Login successfully.");
-           // response.put("user", user);
-            //return ResponseEntity.ok(response);
-            return ResponseEntity.ok(user);
-        } catch (InvalidLoginException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        } catch (UserBlockedException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//    @PostMapping("/login")
+//    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+//        try {
+//            User user = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
+////            Map<String, Object> response = new HashMap<>();
+////            response.put("message", "Login successfully.");
+////            response.put("user", user);
+//         //  return ResponseEntity.ok(response);
+//            return ResponseEntity.ok("User login successfully.");
+//
+//           // return ResponseEntity.ok(user);
+//        } catch (InvalidLoginException e) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+//        } catch (UserBlockedException e) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+//        } catch (UserNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//
+//        }
+//
 
+    @PostMapping("/login")
+    public ApiResponse<Object> loginUser(@RequestBody User loginRequest) {
+        ApiResponse<Object> response = new ApiResponse<>();
+        User user = userService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
+
+        if (user != null) {
+            String token = jwtService.generateToken(user.getUsername(), user.getUserRole().name());
+            response.setMessage("User Authentication Successful");
+            response.setStatus(200);
+            response.setData(token);
+            System.out.println("Successful login for user: " + loginRequest.getUsername());
+        } else {
+            response.setMessage("Invalid username or password");
+            response.setStatus(401); // 401 Unauthorized status
         }
+
+        return response;
 
     }
 

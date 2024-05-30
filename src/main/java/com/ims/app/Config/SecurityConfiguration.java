@@ -1,6 +1,7 @@
 package com.ims.app.Config;
 
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -97,14 +98,15 @@ public class SecurityConfiguration {
     http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
-//  @Bean
-//  public PasswordEncoder passwordEncoder() {
-//    return new BCryptPasswordEncoder();
-//  }
+ @Bean
+ public PasswordEncoder passwordEncoder() {
+   return new BCryptPasswordEncoder();
+  }
 
-//  @Bean
-//  public ModelMapper modelMapper() {
-//    return new ModelMapper();
-//  }
+
+ @Bean
+public ModelMapper modelMapper() {
+   return new ModelMapper();
+  }
 
 }

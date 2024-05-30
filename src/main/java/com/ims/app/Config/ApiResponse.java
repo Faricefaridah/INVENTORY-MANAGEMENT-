@@ -1,17 +1,23 @@
 package com.ims.app.Config;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.io.Serializable;
+
+@Getter
+@Setter
 @Data
-public class ApiResponse<T> {
+public class ApiResponse<T>  implements Serializable {
     private String message;
     private T data;
-    private int statusCode;
+    private int status;
 
-    public ApiResponse(String message, T data, int statusCode) {
+    public ApiResponse() {
         this.message = message;
         this.data = data;
-        this.statusCode = statusCode;
+        this.status = status;
     }
 }
 

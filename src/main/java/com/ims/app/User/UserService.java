@@ -51,7 +51,6 @@ public interface UserService {
     User login(String username, String password) throws UserNotFoundException, InvalidLoginException, UserBlockedException;
     void forgotPassword(String username) throws UserNotFoundException, EmailNotificationException;
     void resetPassword(String username, String newPassword, String token) throws UserNotFoundException, InvalidTokenException, InvalidDataException;
-
     // CRUD operations
     ApiResponse<User> addUser(User user) throws UserAlreadyExistsException, InvalidDataException;
     void deleteUser(User user) throws UserNotFoundException, InvalidLoginException;
@@ -61,4 +60,6 @@ public interface UserService {
     void saveUser(User existingUser) throws UserAlreadyExistsException, InvalidDataException;
     User findUserByEmail(String email) throws UserNotFoundException;
     User findUserByUsername(String username) throws UserNotFoundException;
+
+    User authenticateUser(String username, String password);
 }
